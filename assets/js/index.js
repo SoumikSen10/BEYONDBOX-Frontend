@@ -5,6 +5,8 @@
 import { sidebar } from "./sidebar.js";
 import { api_key,imageBaseUrl,fetchDataFromServer } from "./api.js";
 
+import {createMovieCard} from "./movie-card.js";
+
 
 const pageContent = document.querySelector("[page-content]");
 
@@ -17,7 +19,7 @@ sidebar();
       path:"/movie/upcoming"
     },
     {
-      title:"Today\'s Trending Movies",
+      title:"This Week trending Movies",
       path:"/trending/movie/week"
     },
     {
@@ -96,7 +98,7 @@ const heroBanner=function({ results:movieList}){
     />
 
     <div class="banner-content">
-      <h2 class="heading">${title}h</h2>
+      <h2 class="heading">${title}</h2>
 
       <div class="meta-list">
         <div class="meta-item">${release_date.split("-")[0]}</div>
@@ -145,8 +147,16 @@ const heroBanner=function({ results:movieList}){
 pageContent .appendChild(banner);
 addheroSlider();
 
+// fetch data for home page sections (top rated,upcoming,trending)
+
+for(const{title,path} of homePageSections){
+  fetchDataFromServer( `https://api.themoviedb.org/3${path}?api_key=${api_key}&page=1`,createMovieList,title);
+}
+
 
 }
+
+
 
 
 
@@ -176,6 +186,40 @@ const sliderStart = function(){
 
 }
   addEventOnElements(sliderControls,"click",sliderStart);
+
+}
+
+
+const createMovieList = function({results:movieList},title){
+
+      const movieListElem = document.createElement("section");
+      movieListElem.classList.add("movie-list");
+      movieListElem.ariaLabel=`${title}`;
+      movieListElem.innerHTML = `
+
+      <div class="title-wrapper">
+<h3 class="title-large">${title}</h3>
+</div>
+
+<div class="slider-list">
+<div class="slider-inner">
+  <div class="movie-card">
+    
+  </div>
+
+  
+</div>
+</div>
+      
+      `;
+
+
+      for(const movie of movieList){
+        const movieCard = createMovieCard(movie);//called from movie_card.js
+        movieListElem.querySelector(".slider-inner").appendChild(movieCard);
+      }
+      pageContent.appendChild(movieListElem);
+
 
 }
 

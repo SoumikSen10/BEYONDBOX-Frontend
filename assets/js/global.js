@@ -19,3 +19,11 @@ const searchTogglers = document.querySelectorAll("[search-toggler]");
 addEventOnElements(searchTogglers, "click", function () {
   searchBox.classList.toggle("active");
 });
+
+
+
+// gstore movieId in  localstorage when you click any movie card
+
+const getMovieDetail = function(movieId){
+  window.localStorage.setItem("movieId",String(movieId));
+}
