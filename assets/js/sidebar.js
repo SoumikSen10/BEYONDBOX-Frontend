@@ -32,12 +32,12 @@ sidebarInner.innerHTML=`
 <p class="title">Language</p>
 
 <a href="./movie-list.html" menu-close class="sidebar-link"
-  >English</a
+  onclick="getMovieList("with_original_language=en","English")">English</a
 >
 
-<a href="./movie-list.html" menu-close class="sidebar-link">Hindi</a>
+<a href="./movie-list.html" menu-close class="sidebar-link"  onclick='getMovieList("with_original_language=hi","Hindi")'>Hindi</a>
 
-<a href="./movie-list.html" menu-close class="sidebar-link"
+<a href="./movie-list.html" menu-close class="sidebar-link" onclick='getMovieList("with_original_language=bn","Bengali")'
   >Bengali</a
 >
 </div>
@@ -62,7 +62,7 @@ sidebarInner.innerHTML=`
         link.classList.add("sidebar-link");
         link.setAttribute("href","./movie-list.html");
         link.setAttribute("menu-close","");
-        // link.setAttribute("onclick",`getMovieList("with_genres=${genereId}","${genreName})`)
+        link.setAttribute("onclick",`getMovieList("with_genres=${genereId}","${genreName}")`)
         link.textContent=genreName;
         sidebarInner.querySelectorAll(".sidebar-list")[0].appendChild(link);
     }
@@ -85,7 +85,7 @@ addEventOnElements(sidebarTogglers,"click",function(){
     overlay.classList.toggle("active");
 });
 addEventOnElements(sidebarClose,"click",function(){
-    sidebar.classList.rempve("active");
+    sidebar.classList.remove("active");
     sidebarBtn.classList.remove("active");
     overlay.classList.remove("active");
 });
